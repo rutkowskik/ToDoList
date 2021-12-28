@@ -5,19 +5,18 @@ import com.rutkowski.todolist.command.TaskCommand;
 import com.rutkowski.todolist.services.ListOfTaskService;
 import com.rutkowski.todolist.services.TaskService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
-public class TaskIndexController {
+public class TaskController {
 
     private final TaskService taskService;
     private final ListOfTaskService listOfTaskService;
 
-    public TaskIndexController(TaskService taskService, ListOfTaskService listOfTaskService) {
+    public TaskController(TaskService taskService, ListOfTaskService listOfTaskService) {
         this.taskService = taskService;
         this.listOfTaskService = listOfTaskService;
     }

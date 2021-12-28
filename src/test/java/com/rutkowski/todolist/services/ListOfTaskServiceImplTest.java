@@ -1,5 +1,6 @@
 package com.rutkowski.todolist.services;
 
+import com.rutkowski.todolist.command.ListCommand;
 import com.rutkowski.todolist.command.converter.ListCommandToList;
 import com.rutkowski.todolist.command.converter.ListToListCommand;
 import com.rutkowski.todolist.model.ListOfTasks;
@@ -45,5 +46,12 @@ class ListOfTaskServiceImplTest {
         assertEquals(listOfTasks.size(), 1);
         verify(listOfTasksRepository, times(1)).findAll();
 
+    }
+
+    @Test
+    void testSaveListCommand() {
+        //given
+        ListCommand command = new ListCommand();
+        command.setId(3L);
     }
 }
