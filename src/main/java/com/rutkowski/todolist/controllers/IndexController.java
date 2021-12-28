@@ -20,6 +20,7 @@ public class IndexController {
 
     @RequestMapping
     public String getIndexPage(Model model){
+        log.debug("Getting index page with all lists");
 
         model.addAttribute("lists", listOfTaskService.getListsOfTasks());
         return "index";
