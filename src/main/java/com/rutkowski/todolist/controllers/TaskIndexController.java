@@ -48,14 +48,22 @@ public class TaskIndexController {
     @RequestMapping("list/{listId}/task/{taskId}")
     public String updateTask(@PathVariable String listId, @PathVariable String taskId, Model model){
 
-        model.addAttribute("task", taskService.findById(Long.valueOf(taskId)));
+        model.addAttribute("task", taskService.findByListIdAndTaskId(Long.valueOf(listId), Long.valueOf(taskId)));
         return "task/taskform";
     }
 
     @PostMapping("/list/{listId}/task")
     public String saveOrUpdate(@ModelAttribute TaskCommand command){
         TaskCommand savedCommand = taskService.saveTaskCommand(command);
-        return "redirect:/list/" + savedCommand.getListId() + "/tasks";
+        return "redirect:/list/" + command.getListId() + "/tasks";
+    }
+
+    @GetMapping
+    @RequestMapping("list/{listId}/task/{taskId}/delete")
+    public String deleteById(@PathVariable String listId, @PathVariable String taskId){
+
+        taskService.deleteById(Long.valueOf(taskId));
+        return "redirect:/list/" + listId + "/tasks";
     }
 
 }

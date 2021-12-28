@@ -16,4 +16,7 @@ public class TaskCommand {
     private ListOfTasks listOfTasks;
     private Long listId;
 
+    public Long getListId() {
+        return listId;
+    }
 }

@@ -102,4 +102,25 @@ public class TaskServiceImpl implements TaskService {
         }
 
     }
+
+    @Override
+    public TaskCommand findByListIdAndTaskId(Long listId, Long taskId) {
+
+        Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(listId);
+
+        if(!listOfTasksOptional.isPresent()){
+            throw new RuntimeException("List not found!");
+        }
+
+        ListOfTasks list = listOfTasksOptional.get();
+
+        Optional<TaskCommand> taskCommandOptional = list.getTasks().stream()
+                .filter(task -> task.getId().equals(taskId))
+                .map(task -> taskToTaskCommand.convert(task)).findFirst();
+
+        if(!taskCommandOptional.isPresent()){
+            throw new RuntimeException("Task not exist!");
+        }
+        return taskCommandOptional.get();
+    }
 }

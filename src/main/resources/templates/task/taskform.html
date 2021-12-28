@@ -16,11 +16,11 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<!--/*@thymesVar id="task" type="com.rutkowski.todolist.command.TaskCommand"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <!--/*@thymesVar id="task" type="com.rutkowski.todolist.command.TaskCommand"*/-->
-            <form  th:object="${task}" th:action="@{'/list/' + ${task.getListId} + '/task'}" method="post">
+            <form  th:object="${task}" th:action="@{'/list/' + ${task.listId} + '/task'}" method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">

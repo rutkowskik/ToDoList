@@ -1,30 +1,37 @@
 package com.rutkowski.todolist.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import java.util.HashSet;
+import java.util.Set;
 
-public class ListOfTasksTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class ListOfTasksTest {
 
     ListOfTasks listOfTasks;
-    @Before
+
+    @BeforeEach
     public void setUp(){
         listOfTasks = new ListOfTasks();
     }
 
     @Test
-    public void getId() {
+    void getId() {
         Long idValue = 4L;
+
         listOfTasks.setId(idValue);
-        assertEquals(idValue,listOfTasks.getId());
+
+        assertEquals(idValue, listOfTasks.getId());
     }
 
     @Test
-    public void getTitle() {
-    }
+    void getTasks() {
+        Set<Task> tasks = new HashSet<>();
 
-    @Test
-    public void getDescription() {
+        listOfTasks.setTasks(tasks);
+
+        assertEquals(tasks.size(), listOfTasks.getTasks().size());
     }
 }

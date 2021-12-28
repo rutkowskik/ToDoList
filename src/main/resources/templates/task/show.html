@@ -37,7 +37,7 @@
                                 <td th:text="${task.id}">334</td>
                                 <td th:text="${task.title}">Task Titile</td>
                                 <td th:text="${task.description}">Task description</td>
-                                <td><a href="#" th:href="@{'/task/' + ${task.id} + '/delete'}">Delete Task</a></td>
+                                <td><a href="#" th:href="@{'/list/' + ${list.getId} + '/task/' + ${task.id} + '/delete'}">Delete Task</a></td>
                                 <td><a href="#" th:href="@{'/list/' + ${list.getId} + '/task/' + ${task.id}}">Update</a></td>
                             </tr>
                         </table>
