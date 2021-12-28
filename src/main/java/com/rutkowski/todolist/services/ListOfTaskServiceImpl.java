@@ -7,11 +7,12 @@ import com.rutkowski.todolist.model.ListOfTasks;
 import com.rutkowski.todolist.repositories.ListOfTasksRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-@Service
 @Slf4j
+@Service
 public class ListOfTaskServiceImpl implements ListOfTaskService {
 
     private final ListOfTasksRepository listOfTasksRepository;
@@ -53,4 +54,23 @@ public class ListOfTaskServiceImpl implements ListOfTaskService {
         return listToListCommand.convert(saveList);
 
     }
+    @Override
+    public ListOfTasks findById(Long id) {
+        Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(id);
+
+        if(!listOfTasksOptional.isPresent()){
+            throw new RuntimeException("List not found");
+        }
+
+        return listOfTasksOptional.get();
+
+    }
+
+    @Override
+    @Transactional
+    public ListCommand findCommandById(Long l) {
+        return listToListCommand.convert(findById(l));
+    }
+
+
 }

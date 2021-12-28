@@ -36,14 +36,15 @@
                                 <td th:text="${list.id}">334</td>
                                 <td th:text="${list.description}">Description</td>
                                 <td>
-                                    <a href="#" th:href="@{'/task/show' + ${list.id}}">View</a>
+                                    <a href="#" th:href="@{'/list/' + ${list.id} + '/tasks'}">View</a>
                                 </td>
                                 <td><a href="#" th:href="@{'/list/' + ${list.id} + '/delete'}">Delete</a></td>
+                                <td><a href="#" th:href="@{'/list/' + ${list.id} + '/update'}">Update</a></td>
                             </tr>
                         </table>
-                        <a href="list/new" class="button">New List</a>
                     </div>
                 </div>
+                <div class="col-md-3"><a href="list/new" class="button">New List</a></div>
             </div>
         </div>
     </div>

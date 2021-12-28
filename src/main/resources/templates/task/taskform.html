@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Task Home</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <!--/*@thymesVar id="task" type="com.rutkowski.todolist.command.TaskCommand"*/-->
+            <form  th:object="${task}" th:action="@{'/list/' + ${task.getListId} + '/task'}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="pannel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Set new Task</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive" >
+                                <table class="table table-hover ">
+                                    <thead class="thead-inverse">
+                                    <tr>
+                                        <th></th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    <tr>
+                                    <td>Values:</td>
+                                    <td class="col-md-3 form-group">
+                                        <input type="text" class="form-control" th:field="*{title}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" th:field="*{description}" />
+                                    </td>
+                                    </tr>
+                                </table>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

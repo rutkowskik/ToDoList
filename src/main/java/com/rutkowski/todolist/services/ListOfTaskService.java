@@ -7,7 +7,12 @@ import java.util.Set;
 public interface ListOfTaskService {
 
     Set<ListOfTasks> getListsOfTasks();
+
     void deleteById(Long id);
 
     ListCommand saveListCommand(ListCommand listCommand);
+
+    ListCommand findCommandById(Long l);
+
+    ListOfTasks findById(Long id);
 }

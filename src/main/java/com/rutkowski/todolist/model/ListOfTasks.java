@@ -32,4 +32,10 @@ public class ListOfTasks {
         this.tasks = tasks;
     }
 
+    public ListOfTasks addTask(Task task){
+        task.setListOfTasks(this);
+        this.tasks.add(task);
+        return this;
+    }
+
 }

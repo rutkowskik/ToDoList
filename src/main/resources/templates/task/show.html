@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Recipe Home</title>
+    <title>Task Home</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -22,26 +22,29 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h1 class="panel-title">My Recipes!</h1>
+                    <h1 class="panel-title">My Tasks!</h1>
                 </div>
                 <div class="panel-body">
-                    <div class="table-responsive" th:if="${not #lists.isEmpty(tasks)}">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(list.tasks)}">
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
                                 <th>ID</th>
+                                <th>Title</th>
                                 <th>Description</th>
                             </tr>
-                            <tr th:each="task : ${tasks}">
+                            <tr th:each="task : ${list.tasks}">
                                 <td th:text="${task.id}">334</td>
-                                <td th:text="${task.description}">Tasty Goodnees 3</td>
-                                <td>
-                                    <a href="/">Back</a>
-                                </td>
+                                <td th:text="${task.title}">Task Titile</td>
+                                <td th:text="${task.description}">Task description</td>
+                                <td><a href="#" th:href="@{'/task/' + ${task.id} + '/delete'}">Delete Task</a></td>
+                                <td><a href="#" th:href="@{'/list/' + ${list.getId} + '/task/' + ${task.id}}">Update</a></td>
                             </tr>
                         </table>
                     </div>
                 </div>
+                <div class="col-md-3"><a href="/" class="button" >Back to Lists</a></div>
+                <div class="col-md-6"> <a href="#" th:href="@{'/list/' + ${list.id} + '/task/new'}" class="button">Add New Task</a></div>
             </div>
         </div>
     </div>

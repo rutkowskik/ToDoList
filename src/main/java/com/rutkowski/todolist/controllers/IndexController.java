@@ -48,4 +48,11 @@ public class IndexController {
         return "redirect:/";
     }
 
+    @GetMapping
+    @RequestMapping("/list/{id}/update")
+    public String updateList(@PathVariable String id, Model model){
+        model.addAttribute("list", listOfTaskService.findCommandById(Long.valueOf(id)));
+        return "listform";
+    }
+
 }
