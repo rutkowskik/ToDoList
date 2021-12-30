@@ -7,6 +7,7 @@ import com.rutkowski.todolist.model.ListOfTasks;
 import com.rutkowski.todolist.model.Task;
 import com.rutkowski.todolist.repositories.ListOfTasksRepository;
 import com.rutkowski.todolist.repositories.TasksRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -66,7 +66,7 @@ class TaskServiceImplTest {
         TaskCommand savedCommand = taskService.saveTaskCommand(command);
 
         //then
-        assertEquals(Long.valueOf(3L), savedCommand.getId());
+        Assertions.assertEquals(Long.valueOf(3L), savedCommand.getId());
         verify(listOfTasksRepository, times(1)).findById(anyLong());
         verify(listOfTasksRepository, times(1)).save(any(ListOfTasks.class));
     }
@@ -88,7 +88,6 @@ class TaskServiceImplTest {
         listOfTasks.addTask(task);
         listOfTasks.addTask(task1);
         listOfTasks.addTask(task2);
-
         Optional<ListOfTasks> listOfTasksOptional = Optional.of(listOfTasks);
         //when
         when(listOfTasksRepository.findById(anyLong())).thenReturn(listOfTasksOptional);
@@ -96,8 +95,8 @@ class TaskServiceImplTest {
         TaskCommand taskCommand = taskService.findByListIdAndTaskId(1L, 3L);
 
         //when
-        assertEquals(Long.valueOf(3L), taskCommand.getId());
-        assertEquals(Long.valueOf(1L), taskCommand.getListId());
+        Assertions.assertEquals(Long.valueOf(3L), taskCommand.getId());
+        Assertions.assertEquals(Long.valueOf(1L), taskCommand.getListId());
         verify(listOfTasksRepository, times(1)).findById(anyLong());
 
     }

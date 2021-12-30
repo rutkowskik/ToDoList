@@ -2,7 +2,6 @@ package com.rutkowski.todolist.controllers;
 
 import com.rutkowski.todolist.command.ListCommand;
 import com.rutkowski.todolist.command.TaskCommand;
-import com.rutkowski.todolist.model.Task;
 import com.rutkowski.todolist.services.ListOfTaskService;
 import com.rutkowski.todolist.services.TaskService;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -107,12 +108,10 @@ class TaskControllerTest {
 
     @Test
     void deleteById() throws Exception {
-
-        //todo test tasksevice
-
         mockMvc.perform(get("/list/1/task/2/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/list/1/tasks"));
 
+        verify(taskService, times(1)).deleteById(anyLong());
     }
 }

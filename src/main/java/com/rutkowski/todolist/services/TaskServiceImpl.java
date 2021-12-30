@@ -74,8 +74,6 @@ public class TaskServiceImpl implements TaskService {
                 Task taskFound = taskOptional.get();
                 taskFound.setDescription(taskCommand.getDescription());
                 taskFound.setTitle(taskCommand.getTitle());
-                //can be problem
-                taskFound.setListOfTasks(taskCommand.getListOfTasks());
                 taskFound.setDone(taskCommand.getDone());
             }else{
                 //add new Task
@@ -109,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
         Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(listId);
 
         if(!listOfTasksOptional.isPresent()){
-            throw new RuntimeException("List not found!");
+            log.error("list not found. ID: " +listId);
         }
 
         ListOfTasks list = listOfTasksOptional.get();
