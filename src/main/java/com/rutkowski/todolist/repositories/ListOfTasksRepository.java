@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface ListOfTasksRepository extends CrudRepository<ListOfTasks, Long> {
 
     Optional<ListOfTasks> findByDescription(String description);
-
     void deleteById(Long id);
 
 }

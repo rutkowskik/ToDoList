@@ -1,5 +1,6 @@
 package com.rutkowski.todolist.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

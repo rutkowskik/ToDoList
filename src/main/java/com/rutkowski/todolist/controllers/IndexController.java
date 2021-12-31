@@ -1,15 +1,18 @@
 package com.rutkowski.todolist.controllers;
 
 import com.rutkowski.todolist.command.ListCommand;
+import com.rutkowski.todolist.exception.NotFoundException;
 import com.rutkowski.todolist.services.ListOfTaskService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
-public class IndexController {
+public class IndexController{
 
     private final ListOfTaskService listOfTaskService;
 

@@ -55,6 +55,27 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public TaskCommand findByListIdAndTaskId(Long listId, Long taskId) {
+
+        Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(listId);
+
+        if(!listOfTasksOptional.isPresent()){
+            log.error("list not found. ID: " +listId);
+        }
+
+        ListOfTasks list = listOfTasksOptional.get();
+
+        Optional<TaskCommand> taskCommandOptional = list.getTasks().stream()
+                .filter(task -> task.getId().equals(taskId))
+                .map(task -> taskToTaskCommand.convert(task)).findFirst();
+
+        if(!taskCommandOptional.isPresent()){
+            throw new RuntimeException("Task not exist!");
+        }
+        return taskCommandOptional.get();
+    }
+
+    @Override
     @Transactional
     public TaskCommand saveTaskCommand(TaskCommand taskCommand) {
         Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(taskCommand.getListId());
@@ -101,24 +122,4 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
-    @Override
-    public TaskCommand findByListIdAndTaskId(Long listId, Long taskId) {
-
-        Optional<ListOfTasks> listOfTasksOptional = listOfTasksRepository.findById(listId);
-
-        if(!listOfTasksOptional.isPresent()){
-            log.error("list not found. ID: " +listId);
-        }
-
-        ListOfTasks list = listOfTasksOptional.get();
-
-        Optional<TaskCommand> taskCommandOptional = list.getTasks().stream()
-                .filter(task -> task.getId().equals(taskId))
-                .map(task -> taskToTaskCommand.convert(task)).findFirst();
-
-        if(!taskCommandOptional.isPresent()){
-            throw new RuntimeException("Task not exist!");
-        }
-        return taskCommandOptional.get();
-    }
 }

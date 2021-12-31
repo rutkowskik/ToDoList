@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -30,7 +31,7 @@ class TaskServiceImplTest {
     @Mock
     ListOfTasksRepository listOfTasksRepository;
 
-    @Mock
+
     TaskService taskService;
 
     public TaskServiceImplTest(){
@@ -72,7 +73,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void findByListIdAndTaskId() {
+    void findByListIdAndTaskIdHappy() throws Exception{
+        //given
         ListOfTasks listOfTasks = new ListOfTasks();
         listOfTasks.setId(1L);
 
@@ -91,13 +93,15 @@ class TaskServiceImplTest {
         Optional<ListOfTasks> listOfTasksOptional = Optional.of(listOfTasks);
         //when
         when(listOfTasksRepository.findById(anyLong())).thenReturn(listOfTasksOptional);
-
-        TaskCommand taskCommand = taskService.findByListIdAndTaskId(1L, 3L);
+        //then
+        TaskCommand taskCommand = taskService.findByListIdAndTaskId(1L,3L);
+        //todo sometimes NPE list cannot be found
 
         //when
-        Assertions.assertEquals(Long.valueOf(3L), taskCommand.getId());
-        Assertions.assertEquals(Long.valueOf(1L), taskCommand.getListId());
+        assertEquals(Long.valueOf(3L), taskCommand.getId());
+        assertEquals(Long.valueOf(1L), taskCommand.getListId());
         verify(listOfTasksRepository, times(1)).findById(anyLong());
+
 
     }
 }

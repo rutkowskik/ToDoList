@@ -2,19 +2,21 @@ package com.rutkowski.todolist.controllers;
 
 import com.rutkowski.todolist.command.ListCommand;
 import com.rutkowski.todolist.command.TaskCommand;
+import com.rutkowski.todolist.exception.NotFoundException;
+import com.rutkowski.todolist.model.ListOfTasks;
 import com.rutkowski.todolist.services.ListOfTaskService;
 import com.rutkowski.todolist.services.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -101,6 +103,8 @@ class TaskControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
                 .param("description", "some string")
+                        .param("direction", "some direction")
+
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/list/2/tasks"));

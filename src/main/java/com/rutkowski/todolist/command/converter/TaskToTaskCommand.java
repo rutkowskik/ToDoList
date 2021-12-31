@@ -19,7 +19,7 @@ public class TaskToTaskCommand implements Converter<Task, TaskCommand> {
         }
         final TaskCommand taskCommand = new TaskCommand();
         taskCommand.setId(source.getId());
-        if(source.getListOfTasks()!=null){
+        if(source.getListOfTasks() != null){
             taskCommand.setListId(source.getListOfTasks().getId());
         }
         taskCommand.setTitle(source.getTitle());
