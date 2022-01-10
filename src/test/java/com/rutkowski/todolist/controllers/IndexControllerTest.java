@@ -21,8 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class IndexControllerTest {
 
@@ -48,7 +47,7 @@ class IndexControllerTest {
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("index2"));
 
     }
     @Test
@@ -66,7 +65,7 @@ class IndexControllerTest {
         String viewName = controller.getIndexPage(model);
 
         //then
-        assertEquals("index",viewName);
+        assertEquals("index2",viewName);
         verify(listOfTaskService, times(1)).getListsOfTasks();
         verify(model, times(1)).addAttribute(eq("lists"), argumentCaptor.capture());
         Set<ListOfTasks> setController = argumentCaptor.getValue();
@@ -78,7 +77,7 @@ class IndexControllerTest {
 
         mockMvc.perform(get("/list/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("listform"));
+                .andExpect(view().name("listform2"));
     }
 
     @Test
@@ -92,24 +91,7 @@ class IndexControllerTest {
         //then
         mockMvc.perform(get("/list/1/update"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("listform"));
-    }
-
-    @Test
-    void testSaveOrUpdate() throws Exception {
-
-        ListCommand command = new ListCommand();
-        command.setId(3L);
-
-        when(listOfTaskService.saveListCommand(any())).thenReturn(command);
-
-        mockMvc.perform(post("/list")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "")
-                .param("description", "some string"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
-
+                .andExpect(view().name("listform2"));
     }
 
     @Test
@@ -122,4 +104,33 @@ class IndexControllerTest {
            verify(listOfTaskService, times(1)).deleteById(anyLong());
     }
 
+    @Test
+    void testPostNewList() throws Exception{
+        ListCommand command = new ListCommand();
+        command.setId(2L);
+
+        when(listOfTaskService.saveListCommand(any())).thenReturn(command);
+
+        mockMvc.perform(post("/list")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("title", "some title")
+                .param("description", "some string"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/list/2/tasks"));
+    }
+
+    @Test
+    void testPostNewListFail() throws Exception{
+        ListCommand command = new ListCommand();
+        command.setId(2L);
+
+        mockMvc.perform(post("/list")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", ""))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("list"))
+                .andExpect(view().name("listform2"));
+
+    }
 }

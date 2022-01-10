@@ -19,8 +19,8 @@ public class ListOfTasks {
     private String title;
     private String description;
     private Boolean done;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "listOfTasks")
-    private Set<Task> tasks = new HashSet<>();
+    @OneToMany(mappedBy = "listOfTasks", cascade = CascadeType.ALL )
+    private Set<Task> tasks = new java.util.LinkedHashSet<>();
 
     public ListOfTasks() {
     }

@@ -2,20 +2,18 @@ package com.rutkowski.todolist.controllers;
 
 import com.rutkowski.todolist.command.ListCommand;
 import com.rutkowski.todolist.command.TaskCommand;
-import com.rutkowski.todolist.exception.NotFoundException;
-import com.rutkowski.todolist.model.ListOfTasks;
 import com.rutkowski.todolist.services.ListOfTaskService;
 import com.rutkowski.todolist.services.TaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.print.attribute.standard.Media;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -52,7 +50,7 @@ class TaskControllerTest {
     void getTaskPage() throws Exception{
         mockMvc.perform(get("/list/1/tasks"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("task/show"));
+                .andExpect(view().name("task/show2"));
 
     }
 
@@ -68,7 +66,7 @@ class TaskControllerTest {
         //then
         mockMvc.perform(get("/list/1/task/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("task/taskform"))
+                .andExpect(view().name("task/taskform2"))
                 .andExpect(model().attributeExists("task"));
 
         verify(listOfTaskService, times(1)).findCommandById(anyLong());
@@ -85,31 +83,9 @@ class TaskControllerTest {
 
         mockMvc.perform(get("/list/1/task/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("task/taskform"))
+                .andExpect(view().name("task/taskform2"))
                 .andExpect(model().attributeExists("task"));
     }
-    @Test
-    void saveOrUpdate() throws Exception {
-        //given
-        TaskCommand taskCommand = new TaskCommand();
-        taskCommand.setId(3L);
-        taskCommand.setListId(2L);
-
-        //when
-        when(taskService.saveTaskCommand(any())).thenReturn(taskCommand);
-
-        //then
-        mockMvc.perform(post("/list/2/task")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "")
-                .param("description", "some string")
-                        .param("direction", "some direction")
-
-        )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/list/2/tasks"));
-    }
-
     @Test
     void deleteById() throws Exception {
         mockMvc.perform(get("/list/1/task/2/delete"))
@@ -117,5 +93,42 @@ class TaskControllerTest {
                 .andExpect(view().name("redirect:/list/1/tasks"));
 
         verify(taskService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void testPostNewTask() throws Exception{
+        TaskCommand command = new TaskCommand();
+        command.setId(3L);
+        command.setListId(2L);
+
+        //when
+        when(taskService.saveTaskCommand(any())).thenReturn(command);
+
+        //then
+        mockMvc.perform(post("/list/2/task")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("title", "some title")
+                .param("description", "some string"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/list/2/tasks"));
+    }
+
+    @Test
+    void testPostNewTaskFail() throws Exception {
+        TaskCommand command = new TaskCommand();
+        command.setId(3L);
+        command.setListId(2L);
+
+        //when
+        when(taskService.saveTaskCommand(any())).thenReturn(command);
+
+
+        //tehn
+        mockMvc.perform(post("/list/2/task")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("task/taskform2"));
     }
 }

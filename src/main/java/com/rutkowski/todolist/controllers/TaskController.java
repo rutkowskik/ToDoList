@@ -8,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -28,7 +31,7 @@ public class TaskController {
 
         model.addAttribute("list", listOfTaskService.findCommandById(Long.valueOf(listId)));
 
-        return "task/show";
+        return "task/show2";
     }
 
     @GetMapping
@@ -41,7 +44,7 @@ public class TaskController {
         TaskCommand taskCommand = new TaskCommand();
         taskCommand.setListId(Long.valueOf(listId));
         model.addAttribute("task", taskCommand);
-        return "task/taskform";
+        return "task/taskform2";
     }
 
     @GetMapping
@@ -49,11 +52,19 @@ public class TaskController {
     public String updateTask(@PathVariable String listId, @PathVariable String taskId, Model model){
 
         model.addAttribute("task", taskService.findByListIdAndTaskId(Long.valueOf(listId), Long.valueOf(taskId)));
-        return "task/taskform";
+        return "task/taskform2";
     }
 
     @PostMapping("/list/{listId}/task")
-    public String saveOrUpdate(@ModelAttribute TaskCommand command){
+    public String saveOrUpdate(@Valid @ModelAttribute("task") TaskCommand command, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "task/taskform2";
+        }
+
         TaskCommand savedCommand = taskService.saveTaskCommand(command);
         return "redirect:/list/" + command.getListId() + "/tasks";
     }

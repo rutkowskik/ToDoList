@@ -39,7 +39,7 @@
 //
 //        when(listOfTaskService.findById(anyLong())).thenThrow(NotFoundException.class);
 //
-//        mockMvc.perform(get("/list/4/tasks"))
+//        mockMvc.perform(get("/list/1/tasks"))
 //                .andExpect(status().isNotFound())
 //                .andExpect(view().name("404error"));
 //    }

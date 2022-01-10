@@ -1,6 +1,5 @@
 package com.rutkowski.todolist.services;
 
-import com.rutkowski.todolist.command.ListCommand;
 import com.rutkowski.todolist.command.converter.ListCommandToList;
 import com.rutkowski.todolist.command.converter.ListToListCommand;
 import com.rutkowski.todolist.model.ListOfTasks;
@@ -11,11 +10,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ListOfTaskServiceImplTest {
@@ -29,7 +26,7 @@ class ListOfTaskServiceImplTest {
     ListOfTasksRepository listOfTasksRepository;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp(){
         MockitoAnnotations.openMocks(this);
         listOfTaskService = new ListOfTaskServiceImpl(listOfTasksRepository, listCommandToList, listToListCommand);
     }
@@ -48,12 +45,5 @@ class ListOfTaskServiceImplTest {
         assertEquals(listOfTasks.size(), 1);
         verify(listOfTasksRepository, times(1)).findAll();
 
-    }
-
-    @Test
-    void testSaveListCommand() {
-        //given
-        ListCommand command = new ListCommand();
-        command.setId(3L);
     }
 }
