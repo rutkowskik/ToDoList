@@ -5,11 +5,14 @@ import com.rutkowski.todolist.services.ListOfTaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
-public class IndexController {
+public class IndexController{
 
     private final ListOfTaskService listOfTaskService;
 
@@ -20,9 +23,10 @@ public class IndexController {
 
     @RequestMapping
     public String getIndexPage(Model model){
+        log.debug("Getting index page with all lists");
 
         model.addAttribute("lists", listOfTaskService.getListsOfTasks());
-        return "index";
+        return "index2";
     }
 
     @GetMapping
@@ -37,15 +41,28 @@ public class IndexController {
     @RequestMapping("/list/new")
     public String newRecipe(Model model){
         model.addAttribute("list", new ListCommand());
-        return "listform";
+        return "listform2";
     }
 
 
     @PostMapping("/list")
-    public String saveOrUpdate(@ModelAttribute ListCommand listCommand){
-        ListCommand savedCommand = listOfTaskService.saveListCommand(listCommand);
+    public String saveOrUpdate(@Valid @ModelAttribute("list") ListCommand listCommand, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
 
-        return "redirect:/";
+            return "listform2";
+        }
+        ListCommand savedCommand = listOfTaskService.saveListCommand(listCommand);
+        return "redirect:/list/" + savedCommand.getId() + "/tasks";
+    }
+
+    @GetMapping
+    @RequestMapping("/list/{id}/update")
+    public String updateList(@PathVariable String id, Model model){
+        model.addAttribute("list", listOfTaskService.findCommandById(Long.valueOf(id)));
+        return "listform2";
     }
 
 }

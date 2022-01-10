@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class ListBoostStrap implements ApplicationListener<ContextRefreshedEvent> {
 
-   private ListOfTasksRepository listOfTasksRepository;
-   private TasksRepository tasksRepository;
+   private final ListOfTasksRepository listOfTasksRepository;
+   private final TasksRepository tasksRepository;
 
     public ListBoostStrap(ListOfTasksRepository listOfTasksRepository, TasksRepository tasksRepository) {
         this.listOfTasksRepository = listOfTasksRepository;
@@ -28,13 +28,13 @@ public class ListBoostStrap implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         ListOfTasks homeList = new ListOfTasks();
-        homeList.setTitle("Cleaning");
-        homeList.setDescription("You have to clean your home regularly!");
+        homeList.setTitle("Preload list");
+        homeList.setDescription("Description of List");
         homeList.setDone(false);
 
         Task vacuum = new Task();
-        vacuum.setTitle("vacuum");
-        vacuum.setDescription("Vacuum all!");
+        vacuum.setTitle("Task title");
+        vacuum.setDescription("Simple description of task.");
         vacuum.setDone(false);
         vacuum.setListOfTasks(homeList);
 
@@ -42,13 +42,13 @@ public class ListBoostStrap implements ApplicationListener<ContextRefreshedEvent
         listOfTasksRepository.save(homeList);
 
         ListOfTasks workList = new ListOfTasks();
-        workList.setTitle("Working");
-        workList.setDescription("You have to work!");
+        workList.setTitle("Preload list 2");
+        workList.setDescription("Description of List 2");
         workList.setDone(false);
 
         Task coding = new Task();
-        coding.setTitle("Coding");
-        coding.setDescription("Code until death!");
+        coding.setTitle("Task Title");
+        coding.setDescription("Simple description of task.");
         coding.setDone(false);
         coding.setListOfTasks(workList);
 

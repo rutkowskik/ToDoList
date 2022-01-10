@@ -14,7 +14,7 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    private Boolean done;
+    private Boolean done = false;
     @ManyToOne
     private ListOfTasks listOfTasks;
 
@@ -28,6 +28,7 @@ public class Task {
         this.description = description;
         this.done = done;
         this.listOfTasks = listOfTasks;
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.rutkowski.todolist.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +19,8 @@ public class ListOfTasks {
     private String title;
     private String description;
     private Boolean done;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "listOfTasks")
-    private Set<Task> tasks = new HashSet<>();
+    @OneToMany(mappedBy = "listOfTasks", cascade = CascadeType.ALL )
+    private Set<Task> tasks = new java.util.LinkedHashSet<>();
 
     public ListOfTasks() {
     }
@@ -30,6 +31,12 @@ public class ListOfTasks {
         this.description = description;
         this.done = done;
         this.tasks = tasks;
+    }
+
+    public ListOfTasks addTask(Task task){
+        task.setListOfTasks(this);
+        this.tasks.add(task);
+        return this;
     }
 
 }
